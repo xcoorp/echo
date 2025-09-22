@@ -37,4 +37,4 @@ jobs:
               run: pnpm install
 
             - name: "Publish ${{ matrix.adapter }} to npm"
-              run: pnpm -r --filter ./packages/laravel-echo --filter ./packages/${{ matrix.adapter }} build && pnpm run release
+              run: pnpm -r --filter ./packages/laravel-echo --filter ./packages/${{ matrix.adapter }} build && cd ./packages/${{ matrix.adapter }} && pnpm run release
