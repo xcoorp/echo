@@ -1,6 +1,17 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/echo/compare/v2.2.0...2.x)
+## [Unreleased](https://github.com/laravel/echo/compare/v2.2.1...2.x)
+
+## [v2.2.1](https://github.com/laravel/echo/compare/v2.2.0...v2.2.1) - 2025-09-22
+
+### What's Changed
+
+* Bump vite from 5.4.19 to 5.4.20 by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/echo/pull/451
+* Bump axios from 1.9.0 to 1.12.0 by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/echo/pull/452
+* Publish in CI by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/echo/pull/455
+* Fix PNPM publishing by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/echo/pull/456
+
+**Full Changelog**: https://github.com/laravel/echo/compare/v2.2.0...v2.2.1
 
 ## [v2.2.0](https://github.com/laravel/echo/compare/v2.1.6...v2.2.0) - 2025-08-07
 
