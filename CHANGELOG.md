@@ -1,6 +1,14 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/echo/compare/v2.2.1...2.x)
+## [Unreleased](https://github.com/laravel/echo/compare/v2.2.2...2.x)
+
+## [v2.2.2](https://github.com/laravel/echo/compare/v2.2.1...v2.2.2) - 2025-09-22
+
+### What's Changed
+
+* Fix publish workflow by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/echo/pull/457
+
+**Full Changelog**: https://github.com/laravel/echo/compare/v2.2.1...v2.2.2
 
 ## [v2.2.1](https://github.com/laravel/echo/compare/v2.2.0...v2.2.1) - 2025-09-22
 
