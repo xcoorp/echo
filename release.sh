@@ -1,4 +1,21 @@
 #!/bin/bash
+set -euo pipefail
+
+REPO="laravel/echo"
+BRANCH="2.x"
+
+# Ensure we are on correct branch and the working tree is clean
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" != "$BRANCH" ]; then
+  echo "Error: must be on $BRANCH branch (current: $CURRENT_BRANCH)" >&2
+  exit 1
+fi
+
+if [ -n "$(git status --porcelain)" ]; then
+  echo "Error: working tree is not clean. Commit or stash changes before releasing." >&2
+  git status --porcelain
+  exit 1
+fi
 
 get_current_version() {
     local package_json=$1
@@ -19,12 +36,6 @@ get_package_name() {
         exit 1
     fi
 }
-
-if [ -n "$(git status --porcelain)" ]; then
-    echo "Error: There are uncommitted changes in the working directory"
-    echo "Please commit or stash these changes before proceeding"
-    exit 1
-fi
 
 update_version() {
     local package_dir=$1
@@ -47,16 +58,43 @@ update_version() {
     esac
 }
 
-echo "Starting package version management..."
+if [ -n "$(git status --porcelain)" ]; then
+    echo "Error: There are uncommitted changes in the working directory"
+    echo "Please commit or stash these changes before proceeding"
+    exit 1
+fi
 
-root_package_json="packages/laravel-echo/package.json"
-current_version=$(get_current_version "$root_package_json")
+git pull
+
+ROOT_PACKAGE_JSON="packages/react/package.json"
+CURRENT_VERSION=$(get_current_version "$ROOT_PACKAGE_JSON")
 echo ""
-echo "Current version: $current_version"
+echo "Current version: $CURRENT_VERSION"
 echo ""
 
-read -p "Update version? (patch/minor/major): " version_type
-echo ""
+echo "Select version bump type:"
+echo "1) patch (bug fixes)"
+echo "2) minor (new features)"
+echo "3) major (breaking changes)"
+echo
+
+read -p "Enter your choice (1-3): " choice
+
+case $choice in
+    1)
+        RELEASE_TYPE="patch"
+        ;;
+    2)
+        RELEASE_TYPE="minor"
+        ;;
+    3)
+        RELEASE_TYPE="major"
+        ;;
+    *)
+        echo "❌ Invalid choice. Exiting."
+        exit 1
+        ;;
+esac
 
 for package_dir in packages/*; do
     if [ -d "$package_dir" ]; then
@@ -64,7 +102,7 @@ for package_dir in packages/*; do
 
         cd $package_dir
 
-        update_version "$package_dir" "$version_type"
+        update_version "$package_dir" "$RELEASE_TYPE"
 
         cd ../..
 
@@ -72,42 +110,27 @@ for package_dir in packages/*; do
     fi
 done
 
-new_version=$(get_current_version "$root_package_json")
+NEW_VERSION=$(get_current_version "$ROOT_PACKAGE_JSON")
+TAG="v$NEW_VERSION"
 
 echo "Updating lock file..."
 pnpm i
+echo ""
 
 echo "Staging package.json files..."
 git add "**/package.json"
 echo ""
 
-echo "Committing version changes..."
-git commit -m "v$new_version"
-echo ""
-
-echo ""
-echo "Creating git tag: v$new_version"
-git tag "v$new_version"
+git commit -m "$TAG"
+git tag -a "$TAG" -m "$TAG"
+git push
 git push --tags
-echo ""
 
-echo "Running release process..."
-echo ""
+gh release create "$TAG" --generate-notes
 
-for package_dir in packages/*; do
-    if [ -d "$package_dir" ]; then
-        echo "Releasing $package_dir"
-        cd $package_dir
-        pnpm run release
-        cd ../..
-        echo ""
-    fi
-done
+echo ""
+echo "✅ Release $TAG completed successfully, publishing kicked off in CI."
+echo "🔗 https://github.com/$REPO/releases/tag/$TAG"
 
 # Echo joke
 echo "Released! (Released!) (Released!)"
-
-echo ""
-
-echo "Release on GitHub:"
-echo "https://github.com/laravel/echo/releases/tag/v$new_version"
