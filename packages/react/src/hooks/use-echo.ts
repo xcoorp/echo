@@ -193,7 +193,6 @@ export const useEchoNotification = <
             .flat(),
     );
     const listening = useRef(false);
-    const initialized = useRef(false);
 
     const cb = useCallback(
         (notification: BroadcastNotification<TPayload>) => {
@@ -216,12 +215,9 @@ export const useEchoNotification = <
             return;
         }
 
-        if (!initialized.current) {
-            result.channel().notification(cb);
-        }
+        result.channel().notification(cb);
 
         listening.current = true;
-        initialized.current = true;
     }, [cb]);
 
     const stopListening = useCallback(() => {
@@ -229,11 +225,15 @@ export const useEchoNotification = <
             return;
         }
 
+        result.channel().stopListeningForNotification(cb);
+
         listening.current = false;
     }, [cb]);
 
     useEffect(() => {
         listen();
+
+        return () => stopListening();
     }, dependencies.concat(events.current));
 
     return {

@@ -37,6 +37,16 @@ export abstract class Channel {
      */
     abstract stopListening(event: string, callback?: CallableFunction): this;
 
+
+    /**
+     * Listen for an event on the channel instance.
+     */
+    stopListeningForNotification(callback: CallableFunction): this {
+        return this.stopListening(
+            ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
+            callback,
+        );
+    }
     /**
      * Stop listening for a whisper event on the channel instance.
      */
