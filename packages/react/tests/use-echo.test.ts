@@ -11,6 +11,7 @@ vi.mock("laravel-echo", () => {
         listen: vi.fn(),
         stopListening: vi.fn(),
         notification: vi.fn(),
+        stopListeningForNotification: vi.fn(),
     };
 
     const mockPublicChannel = {
@@ -1040,10 +1041,11 @@ describe("useEchoNotification hook", async () => {
             echoModule.useEchoNotification(channelName, mockCallback),
         );
 
-        expect(echoInstance.private).toHaveBeenCalledWith(channelName);
+        const channel = echoInstance.private(channelName);
 
         expect(() => unmount()).not.toThrow();
 
+        expect(channel.stopListeningForNotification).toHaveBeenCalled();
         expect(echoInstance.leaveChannel).toHaveBeenCalledWith(
             `private-${channelName}`,
         );
@@ -1112,8 +1114,11 @@ describe("useEchoNotification hook", async () => {
         expect(channel.notification).toHaveBeenCalledTimes(1);
 
         result.current.stopListening();
+        expect(channel.stopListeningForNotification).toHaveBeenCalled();
+
         result.current.listen();
 
+        // notification should still only be called once due to initialized check
         expect(channel.notification).toHaveBeenCalledTimes(1);
     });
 

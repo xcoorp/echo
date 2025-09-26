@@ -237,11 +237,16 @@ export const useEchoNotification = <
             return;
         }
 
+        result.channel().stopListeningForNotification(cb);
         listening.value = false;
     };
 
     onMounted(() => {
         listen();
+    });
+
+    onUnmounted(() => {
+        stopListening();
     });
 
     return {

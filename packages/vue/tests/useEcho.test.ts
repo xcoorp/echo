@@ -134,6 +134,7 @@ vi.mock("laravel-echo", () => {
         listen: vi.fn(),
         stopListening: vi.fn(),
         notification: vi.fn(),
+        stopListeningForNotification: vi.fn(),
     };
 
     const mockPublicChannel = {
@@ -923,10 +924,11 @@ describe("useEchoNotification hook", async () => {
             undefined,
         );
 
-        expect(echoInstance.private).toHaveBeenCalledWith(channelName);
+        const channel = echoInstance.private(channelName);
 
         wrapper.unmount();
 
+        expect(channel.stopListeningForNotification).toHaveBeenCalled();
         expect(echoInstance.leaveChannel).toHaveBeenCalledWith(
             `private-${channelName}`,
         );

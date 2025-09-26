@@ -229,11 +229,15 @@ export const useEchoNotification = <
             return;
         }
 
+        result.channel().stopListeningForNotification(cb);
+
         listening.current = false;
     }, [cb]);
 
     useEffect(() => {
         listen();
+
+        return () => stopListening();
     }, dependencies.concat(events.current));
 
     return {
