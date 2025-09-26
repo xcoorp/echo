@@ -15,6 +15,7 @@
         "lint": "pnpm -r --if-present run lint",
         "format": "pnpm -r --if-present run format",
         "compile": "pnpm -r --if-present run compile",
-        "declarations": "pnpm -r --if-present run declarations"
+        "declarations": "pnpm -r --if-present run declarations",
+        "dev": "pnpm -r --parallel --filter './packages/*' dev"
     }
 }
