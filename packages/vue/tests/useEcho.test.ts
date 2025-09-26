@@ -134,6 +134,7 @@ vi.mock("laravel-echo", () => {
         listen: vi.fn(),
         stopListening: vi.fn(),
         notification: vi.fn(),
+        stopListeningForNotification: vi.fn(),
     };
 
     const mockPublicChannel = {

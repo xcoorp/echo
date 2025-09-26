@@ -237,6 +237,7 @@ export const useEchoNotification = <
             return;
         }
 
+        result.channel().stopListeningForNotification(cb);
         listening.value = false;
     };
 
