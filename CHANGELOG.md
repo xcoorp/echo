@@ -1,6 +1,19 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/echo/compare/v2.2.3...2.x)
+## [Unreleased](https://github.com/laravel/echo/compare/v2.2.4...2.x)
+
+## [v2.2.4](https://github.com/laravel/echo/compare/v2.2.3...v2.2.4) - 2025-09-26
+
+### What's Changed
+
+* Add stopListeningForNotification by [@thoresuenert](https://github.com/thoresuenert) in https://github.com/laravel/echo/pull/459
+* Added contribution guide and dev commands by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/echo/pull/460
+
+### New Contributors
+
+* [@thoresuenert](https://github.com/thoresuenert) made their first contribution in https://github.com/laravel/echo/pull/459
+
+**Full Changelog**: https://github.com/laravel/echo/compare/v2.2.3...v2.2.4
 
 ## [v2.2.3](https://github.com/laravel/echo/compare/v2.2.2...v2.2.3) - 2025-09-22
 
