@@ -245,6 +245,10 @@ export const useEchoNotification = <
         listen();
     });
 
+    onUnmounted(() => {
+        stopListening();
+    });
+
     return {
         ...result,
         /**

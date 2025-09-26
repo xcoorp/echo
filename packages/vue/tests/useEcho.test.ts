@@ -924,10 +924,11 @@ describe("useEchoNotification hook", async () => {
             undefined,
         );
 
-        expect(echoInstance.private).toHaveBeenCalledWith(channelName);
+        const channel = echoInstance.private(channelName);
 
         wrapper.unmount();
 
+        expect(channel.stopListeningForNotification).toHaveBeenCalled();
         expect(echoInstance.leaveChannel).toHaveBeenCalledWith(
             `private-${channelName}`,
         );
