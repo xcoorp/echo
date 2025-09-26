@@ -11,6 +11,12 @@ export abstract class Channel {
     options: EchoOptionsWithDefaults<BroadcastDriver>;
 
     /**
+     * The name for Broadcast Notification Created events.
+     */
+    notificationCreatedEvent: string =
+        ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
+
+    /**
      * Listen for an event on the channel instance.
      */
     abstract listen(event: string, callback: CallableFunction): this;
@@ -26,10 +32,7 @@ export abstract class Channel {
      * Listen for an event on the channel instance.
      */
     notification(callback: CallableFunction): this {
-        return this.listen(
-            ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
-            callback,
-        );
+        return this.listen(this.notificationCreatedEvent, callback);
     }
 
     /**
@@ -37,16 +40,13 @@ export abstract class Channel {
      */
     abstract stopListening(event: string, callback?: CallableFunction): this;
 
-
     /**
-     * Listen for an event on the channel instance.
+     * Stop listening for notification events on the channel instance.
      */
     stopListeningForNotification(callback: CallableFunction): this {
-        return this.stopListening(
-            ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
-            callback,
-        );
+        return this.stopListening(this.notificationCreatedEvent, callback);
     }
+
     /**
      * Stop listening for a whisper event on the channel instance.
      */
