@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                adapter: ["laravel-echo", "react", "vue"]
+                adapter: ["react"]
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                   node-version: "20"
-                  registry-url: "https://registry.npmjs.org"
+                  registry-url: "https://npm.pkg.github.com"
                   cache: pnpm
 
             # Ensure npm 11.5.1 or later is installed
@@ -38,3 +38,6 @@ jobs:
 
             - name: "Publish ${{ matrix.adapter }} to npm"
               run: pnpm -r --filter ./packages/laravel-echo --filter ./packages/${{ matrix.adapter }} build && cd ./packages/${{ matrix.adapter }} && pnpm run release
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}

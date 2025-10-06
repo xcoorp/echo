@@ -1,5 +1,5 @@
 {
-    "name": "@laravel/echo-react",
+    "name": "@xcoorp/echo-react",
     "version": "2.2.4",
     "description": "React hooks for seamless integration with Laravel Echo.",
     "keywords": [
@@ -11,13 +11,16 @@
     "homepage": "https://github.com/laravel/echo/tree/2.x/packages/react",
     "repository": {
         "type": "git",
-        "url": "https://github.com/laravel/echo"
+        "url": "https://github.com/xcoorp/echo"
     },
     "license": "MIT",
     "author": {
         "name": "Taylor Otwell"
     },
     "type": "module",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
     "main": "dist/index.common.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
